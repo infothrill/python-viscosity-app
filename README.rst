@@ -9,7 +9,7 @@ Python wrapper for Viscosity.app
 Python Boilerplate contains all the boilerplate you need to create a Python package.
 
 * Free software: MIT license
-* Documentation: http://viscosity_app.rtfd.org.
+* Documentation: http://viscosity-app.rtfd.org.
 
 Features
 --------
