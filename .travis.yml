@@ -1,0 +1,16 @@
+# Config file for automatic testing at travis-ci.org
+
+language: python
+
+python:
+  - "3.3"
+  - "3.2"
+  - "2.7"
+  - "2.6"
+#  - "pypy"
+
+install: 
+    - "python setup.py install"
+    - "pip install coveralls --use-mirrors"
+script: "coverage run --source=viscosity_app setup.py test"
+after_success: "coveralls"
