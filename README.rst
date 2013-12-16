@@ -6,7 +6,8 @@ Python wrapper for Viscosity.app
         :target: https://travis-ci.org/infothrill/python-viscosity-app
 
 
-Python Boilerplate contains all the boilerplate you need to create a Python package.
+This package is a relatively minimal wrapper around the AppleScript interface
+of Viscosity.app from http://www.sparklabs.com/viscosity/.
 
 * Free software: MIT license
 * Documentation: http://viscosity-app.rtfd.org.

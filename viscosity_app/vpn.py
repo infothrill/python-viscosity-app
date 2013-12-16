@@ -1,7 +1,7 @@
 """
-This module provides functionality to interact in a programmatic way with the
-application "Viscosity" from http://www.sparklabs.com/viscosity/
-It relies on the OS X applescripting interface.
+This module provides procedures to interact in a programmatic way with the
+application "Viscosity" from http://www.sparklabs.com/viscosity/ using the
+OS X applescripting interface.
 """
 
 import logging
@@ -33,8 +33,8 @@ def disconnect(connection_name):
 
 def get_active_connection_names():
     thescript = """tell application "Viscosity"
-    set conname to name of connections where state is equal to "Connected"
-    return conname
+    set connames to name of connections where state is equal to "Connected"
+    return connames
     end tell"""
     return applescript.AppleScript(thescript).run()
 
@@ -47,19 +47,19 @@ def get_all_connection_names():
     return applescript.AppleScript(thescript).run()
 
 
-class VpnController(object):
+class VpnConnection(object):
     '''
     An Applescript based controller for Viscosity.app
     (http://www.sparklabs.com/viscosity/)
     '''
     def __init__(self, connection_name):
-        super(VpnController, self).__init__()
+        super(VpnConnection, self).__init__()
         if connection_name not in get_all_connection_names():
             raise ValueError("Connection '%s' not found in Viscosity!" % connection_name)
         self.__connection_name = connection_name
 
     @property
-    def connection_name(self):
+    def name(self):
         return self.__connection_name
 
     def connect(self):
@@ -96,14 +96,14 @@ class VpnController(object):
 class VpnControllerSubject(Subject):
     '''
     A class capable of monitoring a specific Viscosity VPN connection and
-    notifying observers about changes in the VPN connection.
+    notifying observers about changes in the status of the connection.
     '''
     def __init__(self, vpn):
         super(VpnControllerSubject, self).__init__()
-        self.vpnctl = vpn
+        self.connection = vpn
 
     def refresh(self):
-        self.connected = self.vpnctl.is_connected()
+        self.connected = self.connection.is_connected()
 
     @property
     def connected(self):
@@ -118,6 +118,6 @@ class VpnControllerSubject(Subject):
         self._connected = value  # pylint: disable=W0201
         if oldvalue != value:
             if value is True:
-                self.notifyObservers(EVT_VPN_STARTED, "VPN('%s') is connected" % self.vpnctl.connection_name)
+                self.notifyObservers(EVT_VPN_STARTED, "VPN('%s') is connected" % self.connection.name)
             else:
-                self.notifyObservers(EVT_VPN_STOPPED, "VPN('%s') is disconnected" % self.vpnctl.connection_name)
+                self.notifyObservers(EVT_VPN_STOPPED, "VPN('%s') is disconnected" % self.connection.name)

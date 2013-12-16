@@ -2,10 +2,10 @@
 Credits
 =======
 
-Development Lead
-----------------
+Initial author
+--------------
 
-* Paul Kremer <paul@spurious.biz>
+* Paul Kremer
 
 Contributors
 ------------

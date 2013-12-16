@@ -14,29 +14,26 @@ v = open(os.path.join(os.path.dirname(__file__), 'viscosity_app', '__init__.py')
 VERSION = re.compile(r".*__version__ = '(.*?)'", re.S).match(v.read()).group(1)
 v.close()
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
-
 setup(
     name='viscosity-app',
-    version='0.1.0',
-    description='Python Boilerplate contains all the boilerplate you need to create a Python package.',
+    version=VERSION,
+    description='Python wrapper for interacting with Viscosity.app from' +
+        'http://www.sparklabs.com/viscosity/',
     long_description=(open('README.rst', 'r').read() + '\n\n' +
                       open('HISTORY.rst', 'r').read()),
     author='Paul Kremer',
     author_email='paul@spurious.biz',
     url='https://github.com/infothrill/python-viscosity-app',
-    packages=[
-        'viscosity-app',
-    ],
-    package_dir={'viscosity-app': 'viscosity_app'},
+    packages=['viscosity_app', 'viscosity_app.tests'],
     include_package_data=True,
     install_requires=[
         "py-applescript",
+        "pyobjc-framework-AppleScriptObjC",  # we list this explicitly, since
+            # py-applescript seems to pull in too much
     ],
     license="MIT",
     zip_safe=True,
-    keywords='viscosity-app',
+    keywords='viscosity, app, vpn',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -49,5 +46,5 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
     ],
-    test_suite='tests',
+    test_suite='viscosity_app.tests',
 )
