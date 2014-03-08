@@ -34,11 +34,11 @@ class Subject(object):
                 try:
                     observer(self, event, msg)
                 except (Exception,) as e:  # pylint: disable=W0703
-                    self.unregisterObserver(observer)
+                    #self.unregisterObserver(observer)
                     errmsg = "Exception in message dispatch: Handler '{0}' "
-                    "unregistered for event '{1}'  ".format(
-                                                            observer.__class__.__name__,
-                                                            event)
+                    "for event '{1}'  ".format(
+                                                observer.__class__.__name__,
+                                                event)
                     logging.error(errmsg, exc_info=e)
 
     def unregisterObserver(self, observer):

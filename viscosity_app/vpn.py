@@ -23,11 +23,13 @@ def connect(connection_name):
 
 def disconnect_all():
     thescript = """tell application "Viscosity" to disconnectall\n"""
+    logging.debug("disconnecting all viscosity connections")
     return applescript.AppleScript(thescript).run()
 
 
 def disconnect(connection_name):
     thescript = """tell application "Viscosity" to disconnect \"%s\"\n""" % connection_name
+    logging.debug("disconnecting viscosity connection '%s'", connection_name)
     return applescript.AppleScript(thescript).run()
 
 
@@ -36,7 +38,13 @@ def get_active_connection_names():
     set connames to name of connections where state is equal to "Connected"
     return connames
     end tell"""
-    return applescript.AppleScript(thescript).run()
+    try:
+        names = applescript.AppleScript(thescript).run()
+    except applescript.ScriptError as exc:
+        logging.debug("An Apple script error occured while querying active connections", exc_info=exc)
+        return ()
+    else:
+        return names
 
 
 def get_all_connection_names():
@@ -44,6 +52,7 @@ def get_all_connection_names():
     set connames to name of connections
     end tell
     return connames"""
+    logging.debug("getting viscosity connection names")
     return applescript.AppleScript(thescript).run()
 
 
